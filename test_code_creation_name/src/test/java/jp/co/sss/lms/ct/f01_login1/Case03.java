@@ -58,14 +58,14 @@ public class Case03 {
 		// ログイン画面を開く
 		goTo("http://localhost:8080/lms");
 		
-		// IDとパスワードを入力 (sendKeys)
+		// IDとパスワードを入力
 		webDriver.findElement(By.id("loginId")).sendKeys("StudentAA01");
 		webDriver.findElement(By.id("password")).sendKeys("StdAA001");
 		
-		// ログインボタンをクリック (click)
+		// ログインボタンをクリック
 		webDriver.findElement(By.className("btn-primary")).click();
 		
-		// h1タグが表示されるまで最大5秒待つ(SeleniumテキストP.28)
+		// h2タグが表示されるまで最大5秒待つ(SeleniumテキストP.28)
 		visibilityTimeout(By.cssSelector("h2"), 5);
 		
 		// 検証：コース詳細画面に遷移したか
