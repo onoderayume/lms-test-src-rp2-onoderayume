@@ -3,6 +3,8 @@ package jp.co.sss.lms.ct.f02_faq;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 
 /**
@@ -140,17 +143,26 @@ public class Case05 {
 	@DisplayName("テスト05 キーワード検索で該当キーワードを含む検索結果だけ表示")
 	void test05() {
 		// @author 小野寺結芽
-		// キーワード欄に「研修」と入力
-		webDriver.findElement(By.id("form")).sendKeys("研修");
+		// キーワード欄に「手続き」と入力
+		webDriver.findElement(By.id("form")).sendKeys("手続き");
 		
 		// 検索ボタン押下
 		webDriver.findElement(By.cssSelector("input[value='検索']")).click();
 		
-		// 「キーワードを含む検索結果だけ」が表示されたか
-		String resultText = webDriver.findElement(By.id("DataTables_Table_0")).getText();
-
-		// 検証：そのテキストの中に「研修」が含まれているか
-		assertTrue(resultText.contains("研修"), "検索結果にキーワードが含まれていません");
+		// 下に500ピクセル画面をスクロール
+		scrollBy("500");		
+		
+		// 検索結果の行（tr）をすべて取得
+		List<WebElement> rows = webDriver.findElements(By.cssSelector("table tbody tr")); // tableのtbodyのtrすべて
+		
+		// 検証：検索結果が確実に1件のみか
+		assertEquals(1, rows.size(), "検索結果の件数が一致しません。");
+		
+		// 表示された1件の中から質問文（dtタグ）のテキストを取得(1件目：添え字0)
+		String questionText = rows.get(0).findElement(By.cssSelector("dt")).getText();
+		
+		// 検証：その質問文の中に「手続き」が含まれているか
+		assertTrue(questionText.contains("手続き"), "検索結果にキーワードが含まれていません");
 		
 		// エビデンス取得
 		getEvidence(new Object() {});

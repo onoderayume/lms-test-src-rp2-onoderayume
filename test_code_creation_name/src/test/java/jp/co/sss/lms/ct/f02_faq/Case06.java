@@ -140,7 +140,7 @@ public class Case06 {
 		// カテゴリ検索の【人材開発支援助成金】を押下
 		webDriver.findElement(By.linkText("【人材開発支援助成金】")).click();
 		
-		// 下に300ピクセル画面をスクロール
+		// 下に500ピクセル画面をスクロール
 		scrollBy("500");
 		
 		// index.htmlのtbodyの中にあるtrタグの数を数える
@@ -164,7 +164,7 @@ public class Case06 {
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
 		// @author 小野寺結芽		
-		// 下に300ピクセル画面をスクロール
+		// 下に500ピクセル画面をスクロール
 		scrollBy("500");
 		
 		// 質問(セルフ・キャリアドック制度とは何か)を押下
@@ -172,9 +172,15 @@ public class Case06 {
 		
 		// Answer部分を取得
 		WebElement answerElement = webDriver.findElement(By.className("fs18"));
+		
+		// 表示されたAnswerのテキストを取得
+		String actualAnswer = answerElement.getText();
+				
+		// 期待する回答の文言を定義
+		String expectedAnswer = "A. 労働者にジョブカードを活用した、キャリアコンサルタントによるキャリアコンサルティングを定期的に提供するものです。 なお、セルフ・キャリアドック制度を就業規則または労働協約に規定し、また、「セルフ・キャリアドック実施計画書」の作成が別途必要となります。";
 
-		// 検証：その要素が表示されているか
-		assertTrue(answerElement.isDisplayed(), "回答が表示されていません");
+		// 【検証】文言が完全に一致しているかを検証
+		assertEquals(expectedAnswer, actualAnswer, "表示された回答が一致しません。");		
 		
 		// エビデンス取得
 		getEvidence(new Object() {});
