@@ -146,6 +146,21 @@ public class Case11 {
 			if (rowText.contains("2022年10月13日")) {
 				// その行の中にある「定時」ボタンを押下
 				row.findElement(By.className("default-button")).click();
+				            // (By.cssSelector("button[value='定時']"))でもいい
+				
+				// 現在選択(checked)されている<option>タグのテキストを取得
+				//                                                        前方一致(idがstartHourから始まっているもの)
+				String startHour = row.findElement(By.cssSelector("select[id^='startHour'] option:checked")).getText();
+				String startMinute = row.findElement(By.cssSelector("select[id^='startMinute'] option:checked")).getText();
+				String endHour = row.findElement(By.cssSelector("select[id^='endHour'] option:checked")).getText();
+				String endMinute = row.findElement(By.cssSelector("select[id^='endMinute'] option:checked")).getText();
+				
+				// 検証：09:00と18:00が表示されているか
+				assertEquals("09", startHour, "出勤（時）が違います。");
+				assertEquals("00", startMinute, "出勤（分）が違います。");
+				assertEquals("18", endHour, "退勤（時）が違います。");
+				assertEquals("00", endMinute, "退勤（分）が違います。");				
+				
 				clickSuccess = true;
 				break;
 			}
